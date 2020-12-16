@@ -47,17 +47,17 @@ function copyToClipboard(element) {
   $temp.remove();
 }
 
-let field = document.getElementById("pastery");
-field.addEventListener(
-  "input",
-  function() {
-    let area = document.getElementById("result")
-    area.innerHTML = parseDeeplink(field.value);
-    
-    prepareMonitoringData(field.value)
-  },
-  false
-);
+//let field = document.getElementById("pastery");
+//field.addEventListener(
+//  "input",
+//  function() {
+//    let area = document.getElementById("result")
+//    area.innerHTML = parseDeeplink(field.value);
+//
+//    prepareMonitoringData(field.value)
+//  },
+//  false
+//);
 
 function prepareMonitoringData(link) {
   let monitor = document.getElementById("monitoring")
@@ -69,19 +69,14 @@ function loadImage(link) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  let area = document.getElementById("result");
-  let monitor = document.getElementById("monitoring")
-
-  chrome.tabs.getSelected(null, function(tab) {
-    area.innerHTML = parseDeeplink(tab.url);
-    monitor.innerHTML = '{"externalMonitoringLink":"' + tab.url + '"}'
-  }
 
   var checkPageButton = document.getElementById('checkPage');
   checkPageButton.addEventListener('click', function() {
-
     chrome.tabs.getSelected(null, function(tab) {
-      alert(parseDeeplink(field.value));
+      let area = document.getElementById("result");
+      let monitor = document.getElementById("monitoring")
+      area.innerHTML = parseDeeplink(tab.url);
+      monitor.innerHTML = '{"externalMonitoringLink":"' + tab.url + '"}'
     });
   }, false);
 }, false);
