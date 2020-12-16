@@ -69,6 +69,14 @@ function loadImage(link) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+  let area = document.getElementById("result");
+  let monitor = document.getElementById("monitoring")
+
+  chrome.tabs.getSelected(null, function(tab) {
+    area.innerHTML = parseDeeplink(tab.url);
+    monitor.innerHTML = '{"externalMonitoringLink":"' + tab.url + '"}'
+  }
+
   var checkPageButton = document.getElementById('checkPage');
   checkPageButton.addEventListener('click', function() {
 
