@@ -3,20 +3,37 @@
   <head>
     <title>Go3 Deeplinker</title>
     <script src="popup.js"></script>
+    <script src="content.js"></script>
+    <script src="background.js"></script>
+    <style type="text/css">
+      body, textarea {
+        width: 500px;
+      }
+
+      #preview {
+        width: 160px;
+        height: 90px;
+      }
+    </style>
   </head>
   <body>
     <h1>Deeplinker:</h1>
-    <button id="checkPage">Refresh</button>
+    <!-- <button id="checkPage">Refresh</button> -->
 
     <div>
-      <p>Result: </p>
+      <p>Deeplink: </p>
       <textarea id="result"></textarea>
     </div>
     <div>
       <p>Monitoring link:</p>
       <textarea id="monitoring"></textarea>
+      <p>Monitoring link with image:</p>
+      <textarea id="monitoring-extended"></textarea>
     </div>
-
+    <div>
+      <p>Image preview:</p>
+      <img id="preview"></img>
+    </div>
 
   </body>
 </html>

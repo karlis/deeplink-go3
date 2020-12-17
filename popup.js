@@ -1,3 +1,63 @@
+// # STATE
+// -----------------------
+
+var url = "";
+
+// # PLUGIN
+// -----------------------
+
+document.addEventListener('DOMContentLoaded', function() {  
+  // var checkPageButton = document.getElementById('checkPage');
+  // checkPageButton.addEventListener('click', function() {
+
+    function modifyDOM() {
+      // Can access DOM here
+      let image = document
+        .getElementsByClassName("c-highlight--detail")[0]
+        .getElementsByTagName("img")[0];
+
+      return image.src;
+    }
+    
+    chrome.tabs.executeScript({
+        code: '(' + modifyDOM + ')();'
+    }, (results) => {
+      document.getElementById("preview").src = results[0];
+      prepareMonitoringData(document.getElementById("monitoring-extended"), url, results[0]);
+    });
+
+    chrome.tabs.getSelected(null, function(tab) {
+      url = tab.url;
+
+      let area = document.getElementById("result");
+      area.innerHTML = parseDeeplink(tab.url);
+
+      let monitor = document.getElementById("monitoring");
+      monitor.innerHTML = '{"externalMonitoringLink":"' + tab.url + '"}'      
+    });
+  // }, false);
+}, false);
+
+
+// # HELPERS
+// -----------------------
+
+function parseDeeplink(string) {
+  let obj = expresions.filter(exp => exp.regex.test(string))[0]
+  if (obj == null) {
+    return "Link not recognized…"
+  }
+  return obj.template(...obj.regex.exec(string))
+}
+
+function prepareMonitoringData(monitor, link, imageLink) {
+  monitor.innerHTML = '{"externalMonitoringLink":"' + link + '", "expandable":"true", "expandedImageUrl":"' + imageLink + '"}'
+}
+
+
+// # DEEPLINK STUFF
+// -----------------------
+
 function template(strings, ...keys) {
   return (function(full, ...values) {
     let result = [strings[0]];
@@ -25,58 +85,8 @@ let programmeTemplate = template`${0}/deeplink/detail/live/${1},${2}/${3},${4}`
 let expresions = [
   {regex: watchEpisodeRegex, template: watchEpisodeTemplate},
   {regex: moviesRegex, template: movieTemplate},
-	{regex: seriesRegex, template: seriesTemplate},
-	{regex: eposodeRegex, template: episodeTemplate}, 
-	{regex: liveRegex, template: liveTemplate},
-	{regex: liveProgrammeRegex, template: programmeTemplate},
+  {regex: seriesRegex, template: seriesTemplate},
+  {regex: eposodeRegex, template: episodeTemplate}, 
+  {regex: liveRegex, template: liveTemplate},
+  {regex: liveProgrammeRegex, template: programmeTemplate},
 ]
-
-function parseDeeplink(string) {
-  let obj = expresions.filter(exp => exp.regex.test(string))[0]
-  if (obj == null) {
-    return "Link not recognized…"
-  }
-  return obj.template(...obj.regex.exec(string))
-}
-
-function copyToClipboard(element) {
-  var $temp = $("<input>");
-  $("body").append($temp);
-  $temp.val($(element).text()).select();
-  document.execCommand("copy");
-  $temp.remove();
-}
-
-//let field = document.getElementById("pastery");
-//field.addEventListener(
-//  "input",
-//  function() {
-//    let area = document.getElementById("result")
-//    area.innerHTML = parseDeeplink(field.value);
-//
-//    prepareMonitoringData(field.value)
-//  },
-//  false
-//);
-
-function prepareMonitoringData(link) {
-  let monitor = document.getElementById("monitoring")
-  monitor.innerHTML = '{"externalMonitoringLink":"' + link + '"}'
-}
-
-function loadImage(link) {
-  // Fetch someting later
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-
-  var checkPageButton = document.getElementById('checkPage');
-  checkPageButton.addEventListener('click', function() {
-    chrome.tabs.getSelected(null, function(tab) {
-      let area = document.getElementById("result");
-      let monitor = document.getElementById("monitoring")
-      area.innerHTML = parseDeeplink(tab.url);
-      monitor.innerHTML = '{"externalMonitoringLink":"' + tab.url + '"}'
-    });
-  }, false);
-}, false);
