@@ -22,8 +22,10 @@ document.addEventListener('DOMContentLoaded', function() {
     chrome.tabs.executeScript({
         code: '(' + modifyDOM + ')();'
     }, (results) => {
-      document.getElementById("preview").src = results[0];
-      prepareMonitoringData(document.getElementById("monitoring-extended"), url, results[0]);
+      let resized = results[0].replace("dsth=1080&dstw=1920", "dsth=720&dstw=1280");
+
+      document.getElementById("preview").src = resized;
+      prepareMonitoringData(document.getElementById("monitoring-extended"), url, resized);
     });
 
     chrome.tabs.getSelected(null, function(tab) {
