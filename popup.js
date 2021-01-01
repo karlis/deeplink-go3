@@ -12,11 +12,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function modifyDOM() {
       // Can access DOM here
-      let image = document
-        .getElementsByClassName("c-highlight--detail")[0]
-        .getElementsByTagName("img")[0];
-
-      return image.src;
+      let live = document.getElementsByClassName("c-highlight--detail")[0];
+      let vod = document.getElementsByClassName("c-epg-program-detail__image")[0];
+        
+      if (live == null) {
+        return vod.src
+      } else {
+        return live.getElementsByTagName("img")[0].src;
+       }
     }
     
     chrome.tabs.executeScript({
