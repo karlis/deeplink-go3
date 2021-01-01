@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
         code: '(' + modifyDOM + ')();'
     }, (results) => {
       if (results == null) { return; }
+      if (results[0] == null) { return }
       let resized = results[0].replace("dsth=1080&dstw=1920", "dsth=720&dstw=1280");
 
       document.getElementById("preview").src = resized;
