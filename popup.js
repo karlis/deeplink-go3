@@ -22,10 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
     chrome.tabs.executeScript({
         code: '(' + modifyDOM + ')();'
     }, (results) => {
-      let src = results[0];
-      if (src == null) { return; }
-
-      let resized = src.replace("dsth=1080&dstw=1920", "dsth=720&dstw=1280");
+      if (results == null) { return; }
+      let resized = results[0].replace("dsth=1080&dstw=1920", "dsth=720&dstw=1280");
 
       document.getElementById("preview").src = resized;
       prepareMonitoringData(document.getElementById("monitoring-extended"), url, resized);
@@ -37,8 +35,10 @@ document.addEventListener('DOMContentLoaded', function() {
       let area = document.getElementById("result");
       area.innerHTML = parseDeeplink(tab.url);
 
-      let monitor = document.getElementById("monitoring");
-      monitor.innerHTML = '{"externalMonitoringLink": "' + tab.url + '"}'      
+      if (area.innerHTML != "Link not recognized…") {
+        let monitor = document.getElementById("monitoring");
+        monitor.innerHTML = '{"externalMonitoringLink": "' + tab.url + '"}'      
+      }
     });
 }, false);
 
