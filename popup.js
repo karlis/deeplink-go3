@@ -7,9 +7,6 @@ var url = "";
 // -----------------------
 
 document.addEventListener('DOMContentLoaded', function() {  
-  // var checkPageButton = document.getElementById('checkPage');
-  // checkPageButton.addEventListener('click', function() {
-
     function modifyDOM() {
       // Can access DOM here
       let live = document.getElementsByClassName("c-highlight--detail")[0];
@@ -25,7 +22,10 @@ document.addEventListener('DOMContentLoaded', function() {
     chrome.tabs.executeScript({
         code: '(' + modifyDOM + ')();'
     }, (results) => {
-      let resized = results[0].replace("dsth=1080&dstw=1920", "dsth=720&dstw=1280");
+      let src = results[0];
+      if (src == null) { return; }
+
+      let resized = src.replace("dsth=1080&dstw=1920", "dsth=720&dstw=1280");
 
       document.getElementById("preview").src = resized;
       prepareMonitoringData(document.getElementById("monitoring-extended"), url, resized);
@@ -38,9 +38,8 @@ document.addEventListener('DOMContentLoaded', function() {
       area.innerHTML = parseDeeplink(tab.url);
 
       let monitor = document.getElementById("monitoring");
-      monitor.innerHTML = '{"externalMonitoringLink":"' + tab.url + '"}'      
+      monitor.innerHTML = '{"externalMonitoringLink": "' + tab.url + '"}'      
     });
-  // }, false);
 }, false);
 
 
@@ -56,7 +55,7 @@ function parseDeeplink(string) {
 }
 
 function prepareMonitoringData(monitor, link, imageLink) {
-  monitor.innerHTML = '{"externalMonitoringLink":"' + link + '", "expandable":"true", "expandedImageUrl":"' + imageLink + '"}'
+  monitor.innerHTML = '{"externalMonitoringLink": "' + link + '", "expandable": "true", "expandedImageUrl": "' + imageLink + '"}'
 }
 
 
