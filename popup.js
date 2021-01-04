@@ -11,12 +11,15 @@ document.addEventListener('DOMContentLoaded', function() {
       // Can access DOM here
       let live = document.getElementsByClassName("c-highlight--detail")[0];
       let vod = document.getElementsByClassName("c-epg-program-detail__image")[0];
+      let preview = document.getElementsByClassName("c-trailer__image")[0]; 
         
-      if (live == null) {
-        return vod.src
+      if (live != null) {
+        return live.getElementsByTagName("img")[0].src; 
+      } else if (preview != null) {
+        return preview.src;
       } else {
-        return live.getElementsByTagName("img")[0].src;
-       }
+        return vod.src;
+      }
     }
     
     chrome.tabs.executeScript({
