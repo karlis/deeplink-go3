@@ -77,7 +77,7 @@ function template(strings, ...keys) {
 }
 
 let watchEpisodeRegex = /^(.*)\/(watch)\/(.*),episode-(\d*)$/
-let moviesRegex = /^(.*)\/(tvod|movies|kids_movies)\/(.*),vod-(\d*)$/
+let moviesRegex = /^(.*)\/(tvod|movies|kids_movies|go3_extra)\/(.*),vod-(\d*)$/
 let seriesRegex = /^(.*)\/(series|kids_series)\/(.*),serial-(\d*)$/
 let eposodeRegex = /^(.*)\/(series|kids_series)\/(.*),serial-(\d*)\/.*,episode-(\d*)$/
 let liveRegex = /^(.*)\/live_tv\/(.*),live-(\d*)$/
